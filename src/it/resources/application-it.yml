@@ -1,0 +1,53 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: my-packlink-project
+  output:
+    ansi:
+      enabled: NEVER
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: false
+    property-naming-strategy: SNAKE_CASE
+  rabbitmq:
+    host: rabbitmq-5672.service.consul
+    port: 5672
+    username: packlink
+    password: packlink
+    virtual-host: api
+  cloud:
+    gcp:
+      core:
+        enabled: false
+      logging:
+        enabled: false
+      trace:
+        enabled: false
+  sleuth:
+    enabled: false
+
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      enabled: true
+  metrics:
+    export:
+      stackdriver:
+        enabled: false
+        step: 1m
+
+amqp:
+  out:
+    events:
+      "[com.packlink.mypacklinkproject.domain.event.parcel.ParcelCreated]":
+        exchange: events
+        routing-keys:
+          - mypacklinkproject.parcel.created
+        message-type: ParcelCreated

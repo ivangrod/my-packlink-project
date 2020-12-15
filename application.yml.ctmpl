@@ -1,0 +1,42 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: my-packlink-project
+  output:
+    ansi:
+      enabled: NEVER
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: false
+    property-naming-strategy: SNAKE_CASE
+  cloud:
+    gcp:
+      core:
+        enabled: {{ key "my-packlink-project/gcp/enabled" }}
+      logging:
+        enabled: {{ key "my-packlink-project/gcp/enabled" }}
+      trace:
+        enabled: {{ key "my-packlink-project/gcp/enabled" }}
+  sleuth:
+    enabled: {{ key "my-packlink-project/gcp/enabled" }}
+
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      enabled: true
+  metrics:
+    export:
+      stackdriver:
+        enabled: {{ key "my-packlink-project/gcp/enabled" }}
+        step: 1m
+    tags:
+      application: my-packlink-project
+      docker_container: {{ env "HOSTNAME" }}
+

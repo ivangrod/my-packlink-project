@@ -1,0 +1,9 @@
+version: '3.7'
+
+services:
+
+  rabbitmq:
+    image: eu.gcr.io/packlink-tools/packlink-rabbitmq:3.5-management_packlink1
+    ports:
+      - "9003:5672"
+      - "9004:15672"
